@@ -1,3 +1,4 @@
+//Initialisation du graphique sur la perte
 var lossIncrement = 1;
 var ctx = document.getElementById('lossChart').getContext('2d');
 var lossChart = new Chart(ctx, {
@@ -10,6 +11,7 @@ var lossChart = new Chart(ctx, {
 	}
 });
 
+//Initialisation du graphique sur l'accurancy
 var accurancyIncrement = 1;
 var ctx = document.getElementById('accurancyChart').getContext('2d');
 var accurancyChart = new Chart(ctx, {
@@ -22,6 +24,7 @@ var accurancyChart = new Chart(ctx, {
 	}
 });
 
+//Fonction qui permet d'ajouter une valeur pour un graphique donné et un label donné
 function addData(chart, label, data) {
 	chart.data.labels.push(label);
 	chart.data.datasets.forEach((dataset) => {
@@ -30,6 +33,7 @@ function addData(chart, label, data) {
 	chart.update();
 }
 
+//Paramètres de l'entrainement du modèle
 var slideBatchSize = document.getElementById("batchSize");
 var slideEpochs = document.getElementById("epochs");
 var y = document.getElementById("f");
@@ -38,7 +42,6 @@ var y1 = document.getElementById("f1");
 slideBatchSize.oninput = function() {
 	y.innerHTML = this.value;
 }
-
 slideEpochs.oninput = function() {
 	y1.innerHTML = this.value;
 }
@@ -62,18 +65,15 @@ right.addEventListener("mouseup", () => { right.clicked = false; });
 down.addEventListener("mouseup", () => { down.clicked = false; });
 up.addEventListener("mouseup", () => { up.clicked = false; });
 middle.addEventListener("mouseup", () => { middle.clicked = false; });
+
 //Creation du modele
-	//Input
-	input = tf.input({batchShape: [null, 1000]});
-	//Output
-	output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
-	//Creation du modele
-	model = tf.model({inputs: input, outputs: output});
-	//Optimiser
-	//console.log("test : "+document.getElementById("optimizer").value);
-	optimizer = tf.train.adam(0.01);
-	//Compilation du modele
-	model.compile({optimizer: optimizer, loss: 'categoricalCrossentropy',metrics:['accuracy']});
+input = tf.input({batchShape: [null, 1000]});
+output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
+model = tf.model({inputs: input, outputs: output});
+optimizer = tf.train.adam(0.01);
+//Compilation du modele
+model.compile({optimizer: optimizer, loss: 'categoricalCrossentropy',metrics:['accuracy']});
+
 //Methode utilisée pour charger la webcam
 async function setupWebcam() {
   return new Promise((resolve, reject) => {
@@ -81,11 +81,12 @@ async function setupWebcam() {
 	navigator.getUserMedia = navigator.getUserMedia ||
 		navigatorAny.webkitGetUserMedia || navigatorAny.mozGetUserMedia ||
 		navigatorAny.msGetUserMedia;
+	//vérifie que l'utilisateur a autorisé l'utilisation de la webcam
 	if (navigator.getUserMedia) {
 	  navigator.getUserMedia({video: true},
 		stream => {
 		  webcamElement.srcObject = stream;
-		  webcamElement.addEventListener('loadeddata',  () => resolve(), false);
+		  webcamElement.addEventListener('loadeddata',  () => resolve(), false); //si le navigateur a chargé la frame actuelle, lance resolve()
 		},
 		error => reject());
 	} else {
@@ -93,15 +94,12 @@ async function setupWebcam() {
 	}
   });
 }
+//Permet de recompiler le modèle si l'optimizer à été modifié
 function modelCompile(){
-	//Input
 	input = tf.input({batchShape: [null, 1000]});
-	//Output
 	output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
 	//Creation du modele
 	model = tf.model({inputs: input, outputs: output});
-	//Optimiser
-	//console.log("test : "+document.getElementById("optimizer").value);
 	optimizer = tf.train.adam(1);
 	//Compilation du modele
 	model.compile({optimizer: optimizer, loss: 'categoricalCrossentropy',metrics:['accuracy']});
@@ -111,7 +109,6 @@ function show(){
 }
 function train(){
 	//Entrainement du modele
-	console.log("Train");
 	const tf_features = tf.tensor2d(features, shape=[features.length, 1000])
 	const tf_targets = tf.tensor(targets);
 	model.fit(tf_features, tf_targets, {
