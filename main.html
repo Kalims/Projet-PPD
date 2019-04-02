@@ -3,7 +3,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<script src="https://unpkg.com/@tensorflow/tfjs@0.14.0/dist/tf.min.js"></script>
 	<script src="https://unpkg.com/@tensorflow-models/mobilenet@0.2.0/dist/mobilenet.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   </head>
@@ -33,6 +33,7 @@
 	      </div>
 		  <br>
           <button class="btn btn-primary" onclick="train()" id="train">train</button>
+		   <button class="btn btn-primary" onclick="showTest()" id="train">show test</button>
           <button class="btn btn-primary" onclick="show()" id="train">show</button>
 	   </div>
 
@@ -61,6 +62,24 @@
 		<canvas id="accurancyChart"></canvas>
 	</div>
    </div>
+
+
+  <h3>resultat du test du model</h3>
+  <table class="table" id="tableau">
+	  <thead class="thead-dark"><!-- en-tête -->
+	  <tr><!-- première ligne -->
+		  <th scope="col">Resultat attendu</th>
+		  <th scope="col">Resultat predit</th>
+		  <th scope="col">Erreur ?</th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <tr><!-- seconde ligne du tableau et première de tbody-->
+	  </tr>
+	  </tbody>
+  </table>
+
    <script src="script.js"></script>
+
  </body>
 </html>

@@ -24,7 +24,7 @@ var accurancyChart = new Chart(ctx, {
 	}
 });
 
-//Fonction qui permet d'ajouter une valeur pour un graphique donné et un label donné
+//Fonction qui permet d'ajouter une valeur pour un graphique donnï¿½ et un label donnï¿½
 function addData(chart, label, data) {
 	chart.data.labels.push(label);
 	chart.data.datasets.forEach((dataset) => {
@@ -33,7 +33,7 @@ function addData(chart, label, data) {
 	chart.update();
 }
 
-//Paramètres de l'entrainement du modèle
+//Paramï¿½tres de l'entrainement du modï¿½le
 var slideBatchSize = document.getElementById("batchSize");
 var slideEpochs = document.getElementById("epochs");
 var y = document.getElementById("f");
@@ -47,13 +47,14 @@ slideEpochs.oninput = function() {
 }
 
 const webcamElement = document.getElementById('webcam');
-//Sélection des boutons
+//Sï¿½lection des boutons
 const left = document.getElementById("left");
 const right = document.getElementById("right");
 const up = document.getElementById("up");
 const down = document.getElementById("down")
 var show_class = false;
 var features = [];
+var featuresTest = [];
 var targets = [];
 left.addEventListener("mousedown", () => { left.clicked = true; });
 right.addEventListener("mousedown", () => { right.clicked = true; });
@@ -74,19 +75,19 @@ optimizer = tf.train.adam(0.01);
 //Compilation du modele
 model.compile({optimizer: optimizer, loss: 'categoricalCrossentropy',metrics:['accuracy']});
 
-//Methode utilisée pour charger la webcam
+//Methode utilisï¿½e pour charger la webcam
 async function setupWebcam() {
   return new Promise((resolve, reject) => {
 	const navigatorAny = navigator;
 	navigator.getUserMedia = navigator.getUserMedia ||
 		navigatorAny.webkitGetUserMedia || navigatorAny.mozGetUserMedia ||
 		navigatorAny.msGetUserMedia;
-	//vérifie que l'utilisateur a autorisé l'utilisation de la webcam
+	//vï¿½rifie que l'utilisateur a autorisï¿½ l'utilisation de la webcam
 	if (navigator.getUserMedia) {
 	  navigator.getUserMedia({video: true},
 		stream => {
 		  webcamElement.srcObject = stream;
-		  webcamElement.addEventListener('loadeddata',  () => resolve(), false); //si le navigateur a chargé la frame actuelle, lance resolve()
+		  webcamElement.addEventListener('loadeddata',  () => resolve(), false); //si le navigateur a chargï¿½ la frame actuelle, lance resolve()
 		},
 		error => reject());
 	} else {
@@ -94,7 +95,7 @@ async function setupWebcam() {
 	}
   });
 }
-//Permet de recompiler le modèle si l'optimizer à été modifié
+//Permet de recompiler le modï¿½le si l'optimizer ï¿½ ï¿½tï¿½ modifiï¿½
 function modelCompile(){
 	input = tf.input({batchShape: [null, 1000]});
 	output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
@@ -131,47 +132,110 @@ function train(){
 	});
 }
 function add_features(feature){
-	//Add features to one class if one button is pressed //Ajouter une "fonctionnalité" a une classe si le boutton est cliqué
+	//Add features to one class if one button is pressed //Ajouter une "fonctionnalitï¿½" a une classe si le boutton est cliquï¿½
 	if (left.clicked){
 		console.log("gather left");
-		features.push(feature);
+		features.push((Array.from(feature.buffer().values)));
 		targets.push([1., 0., 0., 0., 0.]);
+		featuresTest.push(feature);
 	}
 	else if (right.clicked){
 		console.log("gather right");
-		features.push(feature);
+		features.push((Array.from(feature.buffer().values)));
 		targets.push([0., 1., 0., 0., 0.]);
+		featuresTest.push(feature);
 	}
 	else if (up.clicked){
 		console.log("gather up");
-		features.push(feature);
+		features.push((Array.from(feature.buffer().values)));
 		targets.push([0., 0., 1., 0. , 0.]);
+		featuresTest.push(feature);
 	}
 	else if (down.clicked){
 		console.log("gather down");
-		features.push(feature);
+		features.push((Array.from(feature.buffer().values)));
 		targets.push([0., 0., 0., 1., 0.]);
+		featuresTest.push(feature);
 	}
 	else if (middle.clicked){
 		console.log("gather middle");
-		features.push(feature);
+		features.push((Array.from(feature.buffer().values)));
 		targets.push([0., 0., 0., 0., 1.]);
+		featuresTest.push(feature);
 	}
 }
+
+function showTest() {
+	console.log("TEST ");
+	const labels = ["Left", "Right", "Up", "Down", "Middle"];
+
+	for ( i=0; i< featuresTest.length; i++) {
+		const prediction = model.predict(featuresTest[i]);
+
+		cl = prediction.argMax(1).buffer().values[0];
+
+		console.log("TEST ",cl, labels[cl]);
+		console.log("TEST prediction all probability : " + prediction.buffer().values);
+		console.log("TEST prediction  : " + prediction.buffer().values[0]);
+		console.log("TEST target", targets[i]);
+
+		indexLabel =0;
+		for ( j=0; j<targets[i].length; j++){
+			console.log(targets[i][j]);
+			if(targets[i][j]==1)
+				indexLabel=j;
+		}
+
+		res = "Erreur";
+		if(labels[indexLabel]==labels[cl])
+			res="OK";
+
+		console.log("TEST prediction - ",prediction, " - cl - ", cl);
+		console.log("TEST label[cl]  ",labels[cl]);
+		console.log("TEST target[i] ",targets[i]);
+		console.log("TEST label[j] ",labels[indexLabel], " - j - ", j);
+
+		ajouterLigne(labels[indexLabel], labels[cl], res);
+	}
+}
+
+function ajouterLigne(label , predict, proba) {
+
+	var tableau = document.getElementById("tableau");
+	var ligne = tableau.insertRow(-1);//on a ajoutÃ© une ligne
+
+	var colonne1 = ligne.insertCell(0);//on a une ajoutÃ© une cellule
+	colonne1.innerHTML = label;
+
+	var colonne2 = ligne.insertCell(1);//on ajoute la seconde cellule
+	colonne2.innerHTML = predict;
+
+	var colonne3 = ligne.insertCell(2);
+	colonne3.innerHTML  = proba;
+
+
+	if (proba =="Erreur"){
+		colonne3.className="fondrouge";
+	}
+	else
+		colonne3.className="fondvert";
+
+}
+
 async function app() {
   console.log('Loading mobilenet..');
   //Charger le modele mobilenet
   net = await mobilenet.load();
-  //Le modele à bien été chargé
+  //Le modele ï¿½ bien ï¿½tï¿½ chargï¿½
   console.log('Sucessfully loaded model');
   await setupWebcam();
-  //Attend que la caméra soit bien fonctionnel
+  //Attend que la camï¿½ra soit bien fonctionnel
   while (true) {
 	//const result = await net.classify(webcamElement);
 	const feature = await net.infer(webcamElement);
 	//console.log(feature);
 	//console.log(feature.buffer().values);
-	add_features(Array.from(feature.buffer().values));
+	add_features(feature);
 	//console.log("Prediction", result[0].className);
 	//console.log("Probability", result[0].probability);
 	if (show_class){

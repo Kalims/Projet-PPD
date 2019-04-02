@@ -33,8 +33,30 @@ canvas {
 }
 
 .chart-container {
-  position: relative;
+  position: sticky;
   margin: auto;
-  height: 60vh;
   width: 60vw;
+}
+
+td.fondvert {
+  background-color: green ;
+  color: white ;
+}
+
+td.fondrouge {
+  background-color: red ;
+  color: white ;
+}
+
+#tableau {
+  position: sticky;
+  width: 60vw;
+  margin: auto;
+}
+
+h3{
+  position: sticky;
+  width: 60vw;
+  margin: auto;
+  padding-top: 5%;
 }
