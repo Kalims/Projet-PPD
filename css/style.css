@@ -1,3 +1,15 @@
+.navbar{
+	margin-bottom:50px;
+}
+
+.logo{
+	width : 350px;
+}
+
+.logo2{
+	width : 100px;
+}
+
 .slider {
   -webkit-appearance: none;
   width: 25%;
@@ -59,4 +71,10 @@ h3{
   width: 60vw;
   margin: auto;
   padding-top: 5%;
+}
+
+#webcam{
+  margin-bottom:25px;
+  border-style: solid;
+  border-width: 5px;
 }
