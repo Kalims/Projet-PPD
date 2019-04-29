@@ -108,6 +108,28 @@ function modelCompile(){
 function show(){
 	show_class = true;
 }
+
+
+
+function savepicture(){
+	document.getElementById("left").addEventListener("click", function() {
+		canvas.getContext("2d").drawImage(webcam, 0, 0, 640, 480);
+		var dataUrl = document.getElementById("save").href = canvas.toDataURL("image/jpeg");
+            $.ajax({
+              type: "POST",
+              url: "http://localhost/Projet-PPD-master/php/downloadFile.php",
+              data: { 
+				 imgBase64: dataUrl
+              },
+			  success: function(){
+				  console.log("save Image successful")
+			  }
+		});
+	});
+}
+	
+
+
 function train(){
 	//Entrainement du modele
 	const tf_features = tf.tensor2d(features, shape=[features.length, 1000])

@@ -6,6 +6,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<script src="https://unpkg.com/@tensorflow/tfjs@0.14.0/dist/tf.min.js"></script>
 	<script src="https://unpkg.com/@tensorflow-models/mobilenet@0.2.0/dist/mobilenet.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
   </head>
@@ -51,7 +53,8 @@
 <!--FIN-->
 <!--BOUTONS-->
         <div class="boutons">
-	     <button class="btn btnb btn-primary" id="left">Left</button>
+		 <canvas id="canvas" width="300" height="300"></canvas>
+		 <a id="save" ><button class="btn btnb btn-primary" onClick = "savepicture();" id="left">Left</button></a>
          <button class="btn btnb btn-primary" id="right">Right</button>
          <button class="btn btnb btn-primary" id="up">Up</button>
          <button class="btn btnb btn-primary" id="down">Down</button>
