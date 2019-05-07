@@ -49,23 +49,14 @@ slideEpochs.oninput = function() {
 const webcamElement = document.getElementById('webcam');
 //S�lection des boutons
 const left = document.getElementById("left");
-const right = document.getElementById("right");
-const up = document.getElementById("up");
-const down = document.getElementById("down")
+
 var show_class = false;
 var features = [];
 var featuresTest = [];
 var targets = [];
+
 left.addEventListener("mousedown", () => { left.clicked = true; });
-right.addEventListener("mousedown", () => { right.clicked = true; });
-down.addEventListener("mousedown", () => { down.clicked = true; });
-up.addEventListener("mousedown", () => { up.clicked = true; });
-middle.addEventListener("mousedown", () => { middle.clicked = true; });
 left.addEventListener("mouseup", () => { left.clicked = false; });
-right.addEventListener("mouseup", () => { right.clicked = false; });
-down.addEventListener("mouseup", () => { down.clicked = false; });
-up.addEventListener("mouseup", () => { up.clicked = false; });
-middle.addEventListener("mouseup", () => { middle.clicked = false; });
 
 //Creation du modele
 input = tf.input({batchShape: [null, 1000]});
@@ -113,13 +104,15 @@ function show(){
 
 function savepicture(){
 	document.getElementById("left").addEventListener("click", function() {
-		canvas.getContext("2d").drawImage(webcam, 0, 0, 640, 480);
+		canvas.getContext("2d").drawImage(webcam, 0, 0, 400, 400);
+	 var firstname = document.getElementById("firstname").value;
 		var dataUrl = document.getElementById("save").href = canvas.toDataURL("image/jpeg");
             $.ajax({
               type: "POST",
-              url: "http://localhost/Projet-PPD-master/php/downloadFile.php",
+              url: "http://localhost:80/Projet-PPD/php/downloadFile.php",
               data: { 
-				 imgBase64: dataUrl
+				 imgBase64: dataUrl,
+				 firstname: firstname
               },
 			  success: function(){
 				  console.log("save Image successful")
