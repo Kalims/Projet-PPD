@@ -154,30 +154,6 @@ function add_features(feature){
 		targets.push([1., 0., 0., 0., 0.]);
 		featuresTest.push(feature);
 	}
-	else if (right.clicked){
-		console.log("gather right");
-		features.push((Array.from(feature.buffer().values)));
-		targets.push([0., 1., 0., 0., 0.]);
-		featuresTest.push(feature);
-	}
-	else if (up.clicked){
-		console.log("gather up");
-		features.push((Array.from(feature.buffer().values)));
-		targets.push([0., 0., 1., 0. , 0.]);
-		featuresTest.push(feature);
-	}
-	else if (down.clicked){
-		console.log("gather down");
-		features.push((Array.from(feature.buffer().values)));
-		targets.push([0., 0., 0., 1., 0.]);
-		featuresTest.push(feature);
-	}
-	else if (middle.clicked){
-		console.log("gather middle");
-		features.push((Array.from(feature.buffer().values)));
-		targets.push([0., 0., 0., 0., 1.]);
-		featuresTest.push(feature);
-	}
 }
 
 function showTest() {
