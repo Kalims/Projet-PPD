@@ -104,9 +104,10 @@ function show(){
 
 function savepicture(){
 	document.getElementById("left").addEventListener("click", function() {
-		canvas.getContext("2d").drawImage(webcam, 0, 0, 400, 400);
+		canvas.getContext("2d").drawImage(webcam, 0, 0, 300, 300);
 	 var firstname = document.getElementById("firstname").value;
-		var dataUrl = document.getElementById("save").href = canvas.toDataURL("image/jpeg");
+		var dataUrl = document.getElementById("save").href = canvas.toDataURL("image/jpeg", 1.0);
+		console.log(dataUrl);
             $.ajax({
               type: "POST",
               url: "http://localhost:80/Projet-PPD/php/downloadFile.php",
@@ -148,12 +149,15 @@ function train(){
 }
 function add_features(feature){
 	//Add features to one class if one button is pressed //Ajouter une "fonctionnalit�" a une classe si le boutton est cliqu�
-	if (left.clicked){
+	//if (left.clicked){
+		//boucle sur dossier
+		
 		console.log("gather left");
-		features.push((Array.from(feature.buffer().values)));
-		targets.push([1., 0., 0., 0., 0.]);
+		
+		features.push((Array.from(feature.buffer().values))); // boucle sur chaque image
+		targets.push([1., 0., 0., 0., 0.]); //nombre de dossier = nombre de classes
 		featuresTest.push(feature);
-	}
+	//}
 }
 
 function showTest() {
