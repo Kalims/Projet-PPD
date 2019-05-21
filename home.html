@@ -1,0 +1,107 @@
+<html>
+  <head>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="https://unpkg.com/@tensorflow/tfjs@0.14.0/dist/tf.min.js"></script>
+	<script src="https://unpkg.com/@tensorflow-models/mobilenet@0.2.0/dist/mobilenet.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+  </head>
+  <body>
+    <!-- MENU -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">PPD TensorFlow</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href=".\home.html">Acceuil <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href=".\main.html">Prédictions</a>
+		<a class="nav-item nav-link" href=".\snapit.html">Snapit</a>
+		<a class="nav-item nav-link" href=".\docs.html">Documentation</a>
+    </div>
+  </div>
+   <img class="logo" src="img/logo.png" alt="">
+	<img class="logo2" src="img/Tensorflow_logo.png" alt="">
+</nav>
+<!-- FIN MENU -->
+<div>
+	<div class="banniere">
+		<img src="img/Banniere.png"></img>
+	</div>
+<br>
+	<div class="texte">
+		<p>
+			Dans le cadre de notre formation par apprentissage en master MIAGE, nous avons l’opportunité de pouvoir gérer un projet dans son intégralité et ce en situation réelle. Plusieurs choix de sujets nous ont donc été soumis et nous avions choisi le sujet portant sur le Machine Learning avec TensorFlow.js.
+			TensorFlow est un outil open source d’apprentissage automatique développé par Google.
+		</p>
+ 		<p>
+ 			Ce réseau permet notamment l’implémentation, l’entraînement et l’évaluation de réseaux de neurones profonds. Ce type de réseau est capable d’apprendre à priori n’importe quelle fonction.
+			Par exemple, imaginons que sur une photo il y a plusieurs choses dont un chat. Pour pouvoir identifier le chat sur la photo, l’algorithme doit être en mesure de distinguer le chat des autres éléments présents sur la photo, et de reconnaître un chat de manière précise quel que soit l’angle sous lequel il est photographié.
+			Afin d’y parvenir, le réseau de neurones doit être entraîné. Il est donc nécessaire de compiler un ensemble d’images d’entraînement pour pratiquer le Deep Learning. Cet ensemble va regrouper des milliers de photos de chats différents, mélangés avec des images d’objets qui ne sont pas des chats. 
+			Pour ces images, ce sont les pixels qui seront insérés dans un réseau et sont ensuite convertis en données puis transférés sur le réseau. Les neurones artificiels assignent ensuite un poids (un certain nombre de paramètres ajustables) aux différents éléments. 
+			La couche finale de neurones va alors rassembler les différentes informations pour déduire s’il s’agit ou non d’un chat.
+		</p>
+	<br>
+		<p>
+			Le réseau de neurones va ensuite comparer cette réponse aux bonnes réponses indiquées par les humains.
+		</p>
+	<br>
+		<p>
+			Dans le cas contraire, le réseau prend note de son erreur et ajuste le poids placé sur les différents neurones pour corriger son erreur. Le processus est répété sur chaque observation et le jeu de données peut être parcouru plusieurs fois (epoch) jusqu’à ce que le réseau soit capable de reconnaître un chat sur une photo dans toutes les circonstances.
+			TensorFlow est un système d’apprentissage automatique qui se présente comme une bibliothèque dédiée au calcul numérique.
+			Initialement, le but de TensorFlow était d’optimiser les calculs numériques complexes, mais aujourd’hui il est très connu pour résoudre des problèmes de Deep Learning. Toutefois, ce framework est assez général pour être utilisé à d’autres fins. Ce document présentera les objectifs que l’on devra atteindre avec le framework TensorFlow.
+		</p>
+	<br>
+		<p>
+			Les objectifs du projet sont :
+		</p>
+		<ul>
+			<li>Découverte des outils TensorFlow, tensorFlow.js et le langage python ;</li>
+			<li>Familiarisation avec les méthodes basiques de Machine Learning ;</li>
+			<li>Définition d’une interface riche avec Javascript, HTML, CSS et tensorFlow.js ;</li>
+			<li>Application avec classification d’images.</li>
+		</ul>
+		
+		<p>Il y aura une partie modification dynamique du modèle et de l’entraînement. Les paramètres pour l’entraînement seront :</p>
+		<ul>
+			<li>Le type d’optimizer et sa valeur : paramètres du modèle</li>
+			<li>La taille du batch et les époques : paramètres de l’entraînement</li>
+			<li>Les images obtenues via la webcam : paramètres de l’entraînement</li>
+		</ul>
+		
+		<p>L’application sera disponible en ligne, pour pouvoir faire participer des gens. L’échantillon utilisé pour nos tests sera à l’échelle de notre classe (25 élèves). Concernant le stockage, il y a deux options :</p>
+		<ul>
+			<li>On stocke les images brut une à une ;</li>
+			<li>On stocke le modèle avec les nouvelles données.</li>
+		</ul>
+		<p>Bilan des fonctionnalités :</p>
+		<ul>
+			<li>Utilisation de Tensorflow js avec le modèle Mobilenet ;</li>
+			<li>Sauvegarde des images prises par rapport à la webcam ;</li>
+			<li>Entraîner un modèle à partir des images prises directement par la webcam (pas depuis les images sauvegardées pour l’instant) ;</li>
+			<li>Paramétrages possibles du modèle ;</li>
+			<li>Les résultats de l’entraînement sous forme de graphique de suivi ;</li>
+			<li>Tableau des comparaisons entre résultats attendus et résultats prédits ;</li>
+			<li>Prédiction de l’appartenance des visages.</li>
+		</ul>
+	</div>
+</div>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3"><p>© PPD - MIAGE Master 2 FA</p><p>Alexandre BARBOSA, Naomie FOURNIE, Lara LAFORGE, Malik CHAIBDOUR & Amine SANAE</p>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+<script src="js/script.js"></script>
+</body>
+</html>

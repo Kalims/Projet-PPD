@@ -16,10 +16,6 @@
 {
 	text-align: center;
 }
-
-.texte {
-	margin: 2%;
-}
 .logo2 {
 	width : 100px;
 }
