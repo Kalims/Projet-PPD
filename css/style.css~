@@ -11,10 +11,24 @@
 .logo {
 	width : 350px;
 }
+.nav-item:hover {
+	border-radius: 20px;
+	background-color: #007bff66;
+	transition:0.5s;
+}
+.btn-primary {
+    color: white;
+    background-color: #007bffb3 !important;
+    border-color: #007bffb3 !important;
 
+}
 .banniere
 {
 	text-align: center;
+}
+
+.texte {
+	margin: 2%;
 }
 .logo2 {
 	width : 100px;

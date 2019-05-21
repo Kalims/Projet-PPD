@@ -11,7 +11,17 @@
 .logo {
 	width : 350px;
 }
+.nav-item:hover {
+	border-radius: 20px;
+	background-color: #007bff66;
+	transition:0.5s;
+}
+.btn-primary {
+    color: white;
+    background-color: #007bffb3 !important;
+    border-color: #007bffb3 !important;
 
+}
 .banniere
 {
 	text-align: center;
@@ -99,7 +109,7 @@ h3{
 }
 
 .table .thead-dark th {
-   background-color: #007bff !important;
+   background-color: #007bffb3 !important;
    border: black solid 1px !important;
    text-align: center;
 }
