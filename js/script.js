@@ -47,16 +47,11 @@ slideEpochs.oninput = function() {
 }
 
 const webcamElement = document.getElementById('webcam');
-//S�lection des boutons
-const left = document.getElementById("left");
 
 var show_class = false;
 var features = [];
 var featuresTest = [];
 var targets = [];
-
-left.addEventListener("mousedown", () => { left.clicked = true; });
-left.addEventListener("mouseup", () => { left.clicked = false; });
 
 //Creation du modele
 input = tf.input({batchShape: [null, 1000]});
@@ -99,30 +94,6 @@ function modelCompile(){
 function show(){
 	show_class = true;
 }
-
-
-
-function savepicture(){
-	document.getElementById("left").addEventListener("click", function() {
-		canvas.getContext("2d").drawImage(webcam, 0, 0, 300, 300);
-	 var firstname = document.getElementById("firstname").value;
-		var dataUrl = document.getElementById("save").href = canvas.toDataURL("image/jpeg", 1.0);
-		console.log(dataUrl);
-            $.ajax({
-              type: "POST",
-              url: "http://localhost:80/Projet-PPD/php/downloadFile.php",
-              data: { 
-				 imgBase64: dataUrl,
-				 firstname: firstname
-              },
-			  success: function(){
-				  console.log("save Image successful")
-			  }
-		});
-	});
-}
-	
-
 
 function train(){
 	//Entrainement du modele
