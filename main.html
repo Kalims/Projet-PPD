@@ -10,17 +10,18 @@
 
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   </head>
   <body>
     <!-- MENU -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">PPD TensorFlow</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" href=".\home.html">Acceuil <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href=".\home.html">Accueil<span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link active" href=".\main.html">Prédictions</a>
 		<a class="nav-item nav-link" href=".\snapit.html">Snapit</a>
 		<a class="nav-item nav-link" href=".\docs.html">Documentation</a>
@@ -31,6 +32,11 @@
 </nav>
 <!-- FIN MENU -->
 </nav>
+<h1 class="lead"><span>Prédictions</span></h1>
+  <div class="content-separator">
+	<i class="fa fa-briefcase sep"></i><span></span>
+  </div>
+<br>
   <div class="row">
     <div id="console"></div>
 	<div class="container">
@@ -44,12 +50,12 @@
 		  BatchSize
 	      <div class="slidecontainer">
 	        <input type="range" min="1" max="100" value="32" class="slider" id="batchSize">
-	        <span id="f" style="font-weight:bold;color:red">32</span>
+	        <span id="f" style="font-weight:bold;color:#4ca2ff">32</span>
 	      </div>
 		  Epochs
 	      <div class="slidecontainer">
 	        <input type="range" min="1" max="100" value="75" class="slider" id="epochs"><output></output>
-	        <span id="f1" style="font-weight:bold;color:red">75</span>
+	        <span id="f1" style="font-weight:bold;color:#4ca2ff">75</span>
 	      </div>
 		  <br>
           <button class="btn btn-primary" onclick="train()" id="train">Train</button>
