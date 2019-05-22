@@ -43,22 +43,22 @@
 <!--VIDEO-->
 	   <div class="parametres">
 		  Optimizer
-	     <div><input type="number" id="optimizer" name="optimizer" min="0.001" max="1"><button class="btn btnd btn-primary" style="margin-left:15px;" onClick="modelCompile();">Load model with new optimizer</button></div>
+	     <div><input type="number" id="optimizer" name="optimizer" min="0.001" max="1"><button class="btn btnd btn-dark" style="margin-left:15px;" onClick="modelCompile();">Load model with new optimizer</button></div>
 		 <br>
 		  BatchSize
 	      <div class="slidecontainer">
 	        <input type="range" min="1" max="100" value="32" class="slider" id="batchSize">
-	        <span id="f" style="font-weight:bold;color:#4ca2ff">32</span>
+	        <span id="f" style="font-weight:bold;color:#23272b">32</span>
 	      </div>
 		  Epochs
 	      <div class="slidecontainer">
 	        <input type="range" min="1" max="100" value="75" class="slider" id="epochs"><output></output>
-	        <span id="f1" style="font-weight:bold;color:#4ca2ff">75</span>
+	        <span id="f1" style="font-weight:bold;color:#23272b">75</span>
 	      </div>
 		  <br>
-          <button class="btn btn-primary" onclick="train()" id="train">Train</button>
-		   <button class="btn btn-primary" onclick="showTest()" id="train">Show test</button>
-          <button class="btn btn-primary" onclick="show()" id="train">Show</button>
+          <button class="btn btn-dark" onclick="train()" id="train">Train</button>
+		   <button class="btn btn-dark" onclick="showTest()" id="train">Show test</button>
+          <button class="btn btn-dark" onclick="show()" id="train">Show</button>
 	   </div>
 
 	  </div>
@@ -108,8 +108,8 @@
 	  <table class="table" id="tableau">
 		  <thead class="thead-dark"><!-- en-tête -->
 		  <tr><!-- première ligne -->
-			  <th scope="col">Resultat attendu</th>
-			  <th scope="col">Resultat predit</th>
+			  <th scope="col">Résultat attendu</th>
+			  <th scope="col">Résultat prédit</th>
 			  <th scope="col">Erreur ?</th>
 		  </tr>
 		  </thead>

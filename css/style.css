@@ -112,8 +112,15 @@ h1 span{
     color: white;
     background-color: #007bffb3 !important;
     border-color: #007bffb3 !important;
-
 }
+
+.btn-dark:hover {
+    color: #23272b !important;
+    background-color: #fff !important;
+    border-color: #1d2124 !important;
+	transition:0.7s !important;
+}
+
 .banniere
 {
 	text-align: center;
@@ -201,9 +208,12 @@ h3{
 }
 
 .table .thead-dark th {
-   background-color: #007bffb3 !important;
-   border: black solid 1px !important;
+
+   border: #fff solid 1px !important;
    text-align: center;
+}
+#pills-tab a {
+	color:#23272b !important;
 }
 
 .page-footer {
