@@ -52,7 +52,9 @@
     border-bottom: 4px solid #ccc;
     line-height: 50px;
 }
-
+.taille {
+	min-height: 54%;
+}
 .fa {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -217,4 +219,8 @@ h3{
 }
 footer {
 	margin-top: 25px;
+}
+
+.navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show>.nav-link {
+    font-weight: bold;
 }
