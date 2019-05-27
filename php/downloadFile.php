@@ -1,5 +1,7 @@
 <?php
-    	
+
+header('Access-Control-Allow-Origin: *');
+
 $rawData = $_POST['imgBase64'];
 $firstname = $_POST['firstname'];
 $filteredData = explode(',', $rawData);

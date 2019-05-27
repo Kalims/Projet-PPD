@@ -1,32 +1,71 @@
 <?php
 
-$datadirectory= 'C://wamp64/www/Projet-PPD/data/';
+header('Access-Control-Allow-Origin: *');
 
-$dirNam = scandir($datadirectory , 1 );
-foreach ($dirNam as $i ) {
-	if ('.' !== $i  && '..' !== $i ){
-		$directory = 'C://wamp64/www/Projet-PPD/data/'.$i;
+class picture {
+    var $name;
+    var $base64;
 
-		if ( ! is_dir($directory)) {
-			exit('Invalid diretory path');
-		}
-		
-		$files = array();
-		foreach(scandir($directory) as $file){
-			if ('.' !== $file  && '..' !== $file ){
-				$files[$i]["name"] = $file;
-				
-				$path = $directory.'/'.$file;
-				$type = pathinfo($path, PATHINFO_EXTENSION);
-				$data = file_get_contents($path);
-				$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-				
-				$files[$i]["base64"] = $base64;
-			}
-		}
-		
-		print_r($files);
-	}
+ function setbase64($base64){
+             $this->base64 = $base64;
+ }
+
+ function setname($name){
+          $this->name = $name;
+ }
+
 }
 
+class pictureCaract {
+    var $nbClasse;
+    var $labelsClasses = array();
+
+ function setnbClasse($nbClasse){
+             $this->nbClasse = $nbClasse;
+ }
+
+ function setlabelsClasses($labelsClasses){
+          $this->labelsClasses = $labelsClasses;
+ }
+
+  function addlabelsClasses($labelsClasses){
+           array_push($this->labelsClasses , $labelsClasses);
+  }
+
+}
+
+
+$datadirectory= 'C://wamp64/www/Projet-PPD/data/';
+
+$dirNam = scandir($datadirectory);
+//$dirNam = scandir($datadirectory , 1 );
+$personPicture = array();
+$files = array();
+$results = array();
+$picturesCaracteristics = new pictureCaract();
+ $compteur = 0;
+
+foreach($dirNam as $subDir){
+    if('.' !== $subDir && '..'!== $subDir){
+        $newDir = scandir($datadirectory . $subDir);
+        $picturesCaracteristics->addlabelsClasses($subDir);
+        $compteur = $compteur +1;
+                        $picturesCaracteristics->setnbClasse($compteur);
+
+        foreach($newDir as $file){
+            if ('.' !== $file  && '..' !== $file ){
+                $path = $datadirectory . $subDir . '/'.$file;
+                $pic = new picture();
+                $pic->setname($subDir);
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                $pic->setbase64($base64);
+                array_push($personPicture, $pic);
+                //print_r($pic);
+            }
+        }
+    }
+}
+print_r(json_encode(array('pictures' => $personPicture, 'caracteristiques' => $picturesCaracteristics)));
 ?>

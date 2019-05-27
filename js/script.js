@@ -188,14 +188,57 @@ function ajouterLigne(label , predict, proba) {
 
 }
 
+
+var pictures = null;
+
+//Methode utilis�e pour charger les images
+function loadPictures() {
+	console.log("fonction load");
+	$.ajax({
+		type: "GET",
+		url:  "http://localhost:80/Projet-PPD/php/uploadImage.php",
+		success: function(request){
+			console.log("success");
+			//pictures=JSON.parse(request.responseText);
+			//console.log(pictures);
+		},
+		error: function(resultat){
+			console.log("error");
+			console.log(resultat);
+		},
+		complete: function(request){
+			console.log("complete");
+			pictures=JSON.parse(request.responseText);
+			console.log(pictures);
+		}
+	});
+	console.log("fin fonction load");
+}
+
 async function app() {
   console.log('Loading mobilenet..');
   //Charger le modele mobilenet
   net = await mobilenet.load();
   //Le modele � bien �t� charg�
   console.log('Sucessfully loaded model');
+
+  loadPictures();
+
   await setupWebcam();
-  //Attend que la cam�ra soit bien fonctionnel
+
+  pictures['pictures'].forEach( function (element) {
+		ImageURL = element['base64'];
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		var image = new Image();
+		image.onload = function() {
+			ctx.drawImage(image, 0, 0);
+		};
+		image.src = ImageURL;
+		const feature = net.infer(canvas);
+		add_features(feature);
+	});
+	
   while (true) {
 	//const result = await net.classify(webcamElement);
 	const feature = await net.infer(webcamElement);
