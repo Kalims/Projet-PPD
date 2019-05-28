@@ -1,4 +1,5 @@
 //Initialisation du graphique sur la perte
+
 var lossIncrement = 1;
 var ctx = document.getElementById('lossChart').getContext('2d');
 var lossChart = new Chart(ctx, {
@@ -52,10 +53,12 @@ var show_class = false;
 var features = [];
 var featuresTest = [];
 var targets = [];
+var nbClasse;
+//var labels = [];
 
 //Creation du modele
 input = tf.input({batchShape: [null, 1000]});
-output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
+output = tf.layers.dense({useBias: true, units: 3, activation: 'softmax'}).apply(input);
 model = tf.model({inputs: input, outputs: output});
 optimizer = tf.train.adam(0.01);
 //Compilation du modele
@@ -84,7 +87,7 @@ async function setupWebcam() {
 //Permet de recompiler le mod�le si l'optimizer � �t� modifi�
 function modelCompile(){
 	input = tf.input({batchShape: [null, 1000]});
-	output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
+	output = tf.layers.dense({useBias: true, units: 3, activation: 'softmax'}).apply(input);
 	//Creation du modele
 	model = tf.model({inputs: input, outputs: output});
 	optimizer = tf.train.adam(1);
@@ -98,6 +101,9 @@ function show(){
 function train(){
 	//Entrainement du modele
 	const tf_features = tf.tensor2d(features, shape=[features.length, 1000])
+	console.log("test dans methode train");
+	console.log(features);
+	console.log(targets);
 	const tf_targets = tf.tensor(targets);
 	model.fit(tf_features, tf_targets, {
 	  batchSize: parseInt(document.getElementById("batchSize").value),
@@ -119,30 +125,28 @@ function train(){
 	});
 }
 function add_features(feature){
-	//Add features to one class if one button is pressed //Ajouter une "fonctionnalit�" a une classe si le boutton est cliqu�
-	//if (left.clicked){
-		//boucle sur dossier
-		
-		console.log("gather left");
-		
+		console.log("add feature function");
 		features.push((Array.from(feature.buffer().values))); // boucle sur chaque image
-		targets.push([1., 0., 0., 0., 0.]); //nombre de dossier = nombre de classes
 		featuresTest.push(feature);
-	//}
 }
+
+
 
 function showTest() {
 	console.log("TEST ");
-	const labels = ["Left", "Right", "Up", "Down", "Middle"];
+	//const labels = ["Left", "Right", "Up", "Down", "Middle"];
+	const labels = pictures['caracteristiques']['labelsClasses'];
+	console.log(labels);
+	console.log(featuresTest);
 
 	for ( i=0; i< featuresTest.length; i++) {
 		const prediction = model.predict(featuresTest[i]);
 
 		cl = prediction.argMax(1).buffer().values[0];
 
-		console.log("TEST ",cl, labels[cl]);
+		console.log("TEST --> all prodict" , prediction,"+ prediction max + label",cl,  labels[cl]);
 		console.log("TEST prediction all probability : " + prediction.buffer().values);
-		console.log("TEST prediction  : " + prediction.buffer().values[0]);
+		console.log("TEST prediction  : " +  prediction.argMax(1).buffer().values[0]);
 		console.log("TEST target", targets[i]);
 
 		indexLabel =0;
@@ -191,6 +195,36 @@ function ajouterLigne(label , predict, proba) {
 
 var pictures = null;
 
+function loadPictures2(){
+	console.log('Load2');
+	var compteur =0 ;
+	console.log(pictures);
+	pictures['pictures'].forEach( function (element) {
+		var ImageURL = element['base64'];
+		var canvas = document.createElement( "canvas");
+		canvas.setAttribute("class", element['name']);
+		canvas.setAttribute("id", "pictures");
+		canvas.width=300;
+		canvas.height=300;
+
+		var ctx = canvas.getContext("2d");
+		var image = new Image();
+		image.onload = function() {
+			ctx.drawImage(image, 0, 0);
+		}
+		image.src = ImageURL;
+		//console.log(image);
+		document.body.appendChild(canvas);
+		console.log(canvas);
+	});
+	//var pictures=document.getElementsByClassName("pictures");//test is not target
+
+	//document.getElementById('main').getElementsByClassName('test')
+
+	//console.log(res);
+	console.log('Load2 fin');
+}
+
 //Methode utilis�e pour charger les images
 function loadPictures() {
 	console.log("fonction load");
@@ -209,54 +243,148 @@ function loadPictures() {
 		complete: function(request){
 			console.log("complete");
 			pictures=JSON.parse(request.responseText);
+			loadPictures2();
+			//labels = pictures['caracteristiques']['labelsClasses'];
+			console.log("complete fonction load pictures");
 			console.log(pictures);
+			//
+			//console.log(labels);
 		}
 	});
 	console.log("fin fonction load");
+
 }
+
+function ini_nbClasse(classe){
+	nbClasse = classe['caracteristiques']['nbClasse'];
+	return nbClasse;
+}
+
+
+function sleep(milliseconds) {
+	var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime() - start) > milliseconds){
+			break;
+		}
+	}
+}
+
+
+
+let image;
+
+loadPictures();
+
+//loadPictures2();
 
 async function app() {
   console.log('Loading mobilenet..');
   //Charger le modele mobilenet
-  net = await mobilenet.load();
+  var net = await mobilenet.load();
   //Le modele � bien �t� charg�
   console.log('Sucessfully loaded model');
 
-  loadPictures();
-
+  //loadPictures();
   await setupWebcam();
+  //ini_nbClasse(pictures);
+  //console.log(nbClasse);
 
-  pictures['pictures'].forEach( function (element) {
-		ImageURL = element['base64'];
-		var canvas = document.getElementById("canvas");
-		var ctx = canvas.getContext("2d");
-		var image = new Image();
-		image.onload = function() {
-			ctx.drawImage(image, 0, 0);
-		};
-		image.src = ImageURL;
-		const feature = net.infer(canvas);
-		add_features(feature);
-	});
+	var res = new Array();
+	var res2 ;
+	var i;
+	var j;
+
+	console.log(pictures['caracteristiques']['labelsClasses'].length);
+	console.log(pictures['caracteristiques']['labelsClasses'][0]);
+
+	for ( i=0; i < pictures['caracteristiques']['labelsClasses'].length; i++){
+		res2 = document.getElementsByClassName(pictures['caracteristiques']['labelsClasses'][i]);
+		console.log(res2);
+		for (j=0; j < res2.length ; j++){
+			//console.log("boucle");
+			var result = net.infer(res2[j]);
+			//console.log("result boucle 2");
+			//console.log(result.buffer().values);
+			add_features(result);
+			var tab = new Array(pictures.caracteristiques.labelsClasses.length).fill(0);
+			tab[i]= 1;
+			targets.push(tab);
+			//console.log(tab);
+		}
+
+	}
+
+  //var compteur =0 ;
+  //pictures['pictures'].forEach( function (element) {
+	// var ImageURL = element['base64'];
+
+		//var canvas = document.createElement("canvas"+ "_" + compteur +"_" + element['name']);
+		//var ctx = canvas.getContext("2d");
+		//var image = new Image();
+	    //image.src = ImageURL;
+
+
+	    //image.height=300;
+	    //image.width=300;
+		//image.onload = function() {
+	    //canvas.width = 300;
+	    //canvas.height = 300;
+	    //console.log(image.src);
+
+	    //ctx.drawImage(image, 0, 0);
+		//};
+		//console.log("test + context canvas");
+		//console.log(image.src);
+		//console.log(ctx);
+
+		//const feature = net.infer(image);
+
+	  	//sleep(1000);
+	  	//console.log(feature);
+
+		//add_features(feature);
+
+
+
+
+		//console.log(labels);
+
+	//	compteur =0;
+	//    pictures['caracteristiques']['labelsClasses'].forEach(function(element2) {
+	//    	var tab = new Array(pictures.caracteristiques.labelsClasses.length).fill(0);
+	//  	  	if (element2 == element['name'] ){
+	//				tab[compteur]= 1;
+	//				console.log(tab);
+	//				targets.push(tab); //nombre de dossier = nombre de classes
+	//			}
+	//  	  	else compteur = compteur+1;
+	//  })
+	//});
+
+  	console.log(features);
+  	console.log(targets);
+
 	
-  while (true) {
+  //while (true) {
 	//const result = await net.classify(webcamElement);
-	const feature = await net.infer(webcamElement);
+//	const feature = await net.infer(webcamElement);
 	//console.log(feature);
 	//console.log(feature.buffer().values);
-	add_features(feature);
+//	add_features(feature);
+//	featuresTest.push(feature);
 	//console.log("Prediction", result[0].className);
 	//console.log("Probability", result[0].probability);
-	if (show_class){
-		console.log(model.predict(feature));
-		const prediction = model.predict(feature);
-		console.log(prediction.buffer().values);
-		const labels = ["Left", "Right", "Up", "Down", "Middle"];
-		cl = prediction.argMax(1).buffer().values[0];
-		console.log(cl, labels[cl]);
-	}
-	//Attend la prochaine "frame"
-	await tf.nextFrame();
-  }
+//	if (show_class){
+//		console.log(model.predict(feature));
+//		const prediction = model.predict(feature);
+//		console.log(prediction.buffer().values);
+//		const labels = ["Left", "Right", "Up", "Down", "Middle"];
+//		cl = prediction.argMax(1).buffer().values[0];
+//		console.log(cl, labels[cl]);
+//	}
+//	//Attend la prochaine "frame"
+//	await tf.nextFrame();
+//  }
 }
 app();
