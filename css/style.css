@@ -216,6 +216,17 @@ h3{
 	color:#23272b !important;
 }
 
+.input-group {
+	width: 56% !important;
+}
+
+
+.input-group-text {
+	color : white !important;
+    background-color: #343a40 !important;
+
+}
+
 .page-footer {
 	background-color: #f8f9fa;
 }
