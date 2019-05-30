@@ -105,7 +105,7 @@ h1 span{
 }
 .nav-item:hover {
 	border-radius: 20px;
-	background-color: #007bff66;
+    background-color: #ffa6007d;
 	transition:0.5s;
 }
 .btn-primary {
