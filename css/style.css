@@ -215,12 +215,27 @@ h3{
 #pills-tab a {
 	color:#23272b !important;
 }
-
+.navbar-brand:hover
+{
+	color:orange !important;
+	transition : 0.5s;
+}
 .input-group {
 	width: 56% !important;
 }
+.reussi {
+    background-image: url('../img/checkmark.png') !important;
+    background-repeat: no-repeat;
+    background-size: contain;
+	color: #ffa600;
+	border: 1px solid #ffa600 !important;
 
-
+}
+.card-header
+{
+	color: white;
+    background-color: rgb(52, 58, 64) !important;
+}
 .input-group-text {
 	color : white !important;
     background-color: #343a40 !important;

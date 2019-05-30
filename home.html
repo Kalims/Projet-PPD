@@ -30,43 +30,60 @@
 </nav>
 <!-- FIN MENU -->
 <div>
-<h1 class="lead"><span>Présentation du projet : Interface web - Machine Learning avec TensorFlow.JS</span></h1>
-	<div class="banniere">
-		<img src="img/Banniere.png"></img>
-	</div>
-<br>
+	<div class="jumbotron">
+		<div class="container">
+			<h1 class="display-3">Interface web - Machine Learning avec TensorFlow.JS</h1>
+			<center><p>Dans le cadre de notre formation par apprentissage en master MIAGE, nous avons eu l’opportunité de pouvoir gérer un projet dans son intégralité et ce en situation réelle. Plusieurs choix de sujets nous ont donc été soumis et nous avions choisi le sujet portant sur le <b>Machine Learning avec TensorFlow.JS</b>.
+			TensorFlow est un outil open source d’apprentissage automatique développé par Google.</p></center>
+			<center><p><a class="btn btn-dark btn-lg" target="_blank" href="https://www.tensorflow.org/js" role="button">En savoir plus sur Tensorflow.js...</a></p></center>
+		</div>
+    </div>
 	<div class="texte">
-		<p>
-			Dans le cadre de notre formation par apprentissage en master MIAGE, nous avons l’opportunité de pouvoir gérer un projet dans son intégralité et ce en situation réelle. Plusieurs choix de sujets nous ont donc été soumis et nous avions choisi le sujet portant sur le Machine Learning avec TensorFlow.js.
-			TensorFlow est un outil open source d’apprentissage automatique développé par Google.
-		</p>
- 		<p>
- 			Ce réseau permet notamment l’implémentation, l’entraînement et l’évaluation de réseaux de neurones profonds. Ce type de réseau est capable d’apprendre à priori n’importe quelle fonction.
-			Par exemple, imaginons que sur une photo il y a plusieurs choses dont un chat. Pour pouvoir identifier le chat sur la photo, l’algorithme doit être en mesure de distinguer le chat des autres éléments présents sur la photo, et de reconnaître un chat de manière précise quel que soit l’angle sous lequel il est photographié.
-			Afin d’y parvenir, le réseau de neurones doit être entraîné. Il est donc nécessaire de compiler un ensemble d’images d’entraînement pour pratiquer le Deep Learning. Cet ensemble va regrouper des milliers de photos de chats différents, mélangés avec des images d’objets qui ne sont pas des chats. 
-			Pour ces images, ce sont les pixels qui seront insérés dans un réseau et sont ensuite convertis en données puis transférés sur le réseau. Les neurones artificiels assignent ensuite un poids (un certain nombre de paramètres ajustables) aux différents éléments. 
-			La couche finale de neurones va alors rassembler les différentes informations pour déduire s’il s’agit ou non d’un chat.
-		</p>
-	<br>
-		<p>
-			Le réseau de neurones va ensuite comparer cette réponse aux bonnes réponses indiquées par les humains.
-		</p>
-	<br>
-		<p>
-			Dans le cas contraire, le réseau prend note de son erreur et ajuste le poids placé sur les différents neurones pour corriger son erreur. Le processus est répété sur chaque observation et le jeu de données peut être parcouru plusieurs fois (epoch) jusqu’à ce que le réseau soit capable de reconnaître un chat sur une photo dans toutes les circonstances.
-			TensorFlow est un système d’apprentissage automatique qui se présente comme une bibliothèque dédiée au calcul numérique.
-			Initialement, le but de TensorFlow était d’optimiser les calculs numériques complexes, mais aujourd’hui il est très connu pour résoudre des problèmes de Deep Learning. Toutefois, ce framework est assez général pour être utilisé à d’autres fins. Ce document présentera les objectifs que l’on devra atteindre avec le framework TensorFlow.
-		</p>
-	<br>
 		<p>
 			Les objectifs du projet sont :
 		</p>
-		<ul>
-			<li>Découverte des outils TensorFlow, tensorFlow.js et le langage python ;</li>
-			<li>Familiarisation avec les méthodes basiques de Machine Learning ;</li>
-			<li>Définition d’une interface riche avec Javascript, HTML, CSS et tensorFlow.js ;</li>
-			<li>Application avec classification d’images.</li>
-		</ul>
+
+		<div class="card-deck mb-3 text-center">
+			<div class="card mb-4 shadow-sm">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Objectif n°1</h4>
+				</div>
+				<div class="card-body">
+					<p>Découverte des outils TensorFlow, tensorFlow.js et le langage python</p>
+					<div class="btn-lg reussi">Atteint</div>
+				</div>
+			</div>
+		
+			<div class="card mb-4 shadow-sm">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Objectif n°2</h4>
+				</div>
+				<div class="card-body">
+					<p>Familiarisation avec les méthodes basiques de Machine Learning</p>
+					<div class="btn-lg reussi">Atteint</div>
+				</div>
+			</div>
+		
+			<div class="card mb-4 shadow-sm">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Objectif n°3</h4>
+				</div>
+				<div class="card-body">
+					<p>Définition d’une interface riche avec Javascript, HTML, CSS et tensorFlow.js</p>
+					<div class="btn-lg reussi">Atteint</div>
+				</div>
+			</div>
+		
+			<div class="card mb-4 shadow-sm">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Objectif n°4</h4>
+				</div>
+				<div class="card-body">
+					<p>Création d'une application avec une classification d’images</p>
+					<div class="btn-lg reussi">Atteint</div>
+				</div>
+			</div>
+		</div>
 		
 		<p>Il y aura une partie modification dynamique du modèle et de l’entraînement. Les paramètres pour l’entraînement seront :</p>
 		<ul>
