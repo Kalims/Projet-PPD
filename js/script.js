@@ -88,8 +88,38 @@ function modelCompile(){
 	input = tf.input({batchShape: [null, 1000]});
 	output = tf.layers.dense({useBias: true, units: ini_nbClasse(), activation: 'softmax'}).apply(input);
 	//Creation du modele
-	model = tf.model({inputs: input, outputs: output});
-	optimizer = tf.train.adam(1);
+	model = tf.model({inputs: input, outputs: output});	
+	
+	var tauxApp = document.getElementById("tauxApp").value;
+	var e = document.getElementById("optimizer-select");
+	var opt = e.options[e.selectedIndex].value;
+	
+	switch (opt) {
+	  case 'sgd':
+		optimizer = tf.train.sgd(tauxApp);
+		break;
+	  case 'RMSProp':
+		optimizer = tf.train.rmsprop(tauxApp);
+		break;
+	  case 'Momentum':
+		optimizer = tf.train.momentum(tauxApp);
+		break;
+	  case 'Adagrad':
+		optimizer = tf.train.adagrad(tauxApp);
+		break;
+	  case 'Ftrl':
+		optimizer = tf.train.ftrl(tauxApp);
+		break;
+	  case 'ProximalAdaGrad':
+		optimizer = tf.train.proximaladagrad(tauxApp);
+		break;
+	  case 'Nesterov':
+		optimizer = tf.train.nesterov(tauxApp);
+		break;
+	  default:
+		optimizer = tf.train.adam(tauxApp);
+	}
+	
 	//Compilation du modele
 	model.compile({optimizer: optimizer, loss: 'categoricalCrossentropy',metrics:['accuracy']});
 }
@@ -102,8 +132,8 @@ function train(){
 	modelCompile();
 	const tf_features = tf.tensor2d(features, shape=[features.length, 1000])
 	console.log("test dans methode train");
-	console.log(features);
-	console.log(targets);
+	//console.log(features);
+	//console.log(targets);
 	const tf_targets = tf.tensor(targets);
 	model.fit(tf_features, tf_targets, {
 	  batchSize: parseInt(document.getElementById("batchSize").value),
@@ -112,11 +142,11 @@ function train(){
 		onBatchEnd: async (batch, logs) => {
 		  //Log the cost for every batch that is fed. //Le cout de chaque batch
 		  //console.log(logs.loss.toFixed(5));
-		  console.log(logs.loss);
+		  //console.log(logs.loss);
 		  addData(lossChart,lossIncrement,logs.loss);
 		  lossIncrement++;
 		  //accurancy
-		  console.log(logs.acc);
+		  //console.log(logs.acc);
 		  addData(accurancyChart,accurancyIncrement,logs.acc);
 		  accurancyIncrement++;
 		  await tf.nextFrame();
@@ -206,7 +236,7 @@ function loadPictures2(){
 		}
 		image.src = ImageURL;
 		document.body.appendChild(canvas);
-		console.log(canvas);
+		//console.log(canvas);
 
 		// miniature
 		var canvasMin = document.createElement( "canvas");
@@ -242,13 +272,13 @@ function loadPictures() {
 		},
 		error: function(resultat){
 			console.log("error");
-			console.log(resultat);
+			//console.log(resultat);
 		},
 		complete: function(request){
 			pictures=JSON.parse(request.responseText);
 			loadPictures2();
 			console.log("LoadPicture function : complete ! ");
-			console.log(pictures);
+			//console.log(pictures);
 		}
 	});
 }
@@ -290,12 +320,12 @@ async function app() {
 	var i;
 	var j;
 
-	console.log(pictures['caracteristiques']['labelsClasses'].length);
-	console.log(pictures['caracteristiques']['labelsClasses'][0]);
+	//console.log(pictures['caracteristiques']['labelsClasses'].length);
+	//console.log(pictures['caracteristiques']['labelsClasses'][0]);
 
 	for ( i=0; i < pictures['caracteristiques']['labelsClasses'].length; i++){
 		res2 = document.getElementsByClassName(pictures['caracteristiques']['labelsClasses'][i]);
-		console.log(res2);
+		//console.log(res2);
 		for (j=0; j < res2.length ; j++){
 			//console.log("boucle");
 			var result = net.infer(res2[j]);
@@ -309,8 +339,8 @@ async function app() {
 		}
 
 	}
-  	console.log(features);
-  	console.log(targets);
+  	//console.log(features);
+  	//console.log(targets);
 	
   while (true) {
 	//const result = await net.classify(webcamElement);

@@ -48,8 +48,22 @@
 <!--VIDEO-->
 	   <div class="parametres">
 		  Optimizer
-	     <div><input type="number" id="optimizer" name="optimizer" min="0.001" max="1"><button class="btn btnd btn-dark" style="margin-left:15px;" onClick="modelCompile();">Load model with new optimizer</button></div>
-		 <br>
+	      <div class="slidecontainer">
+			  <select id="optimizer-select">
+				<option value="adam">adam</option>
+				<option value="sgd">sgd</option>
+				<option value="RMSProp">RMSProp</option>
+				<option value="Momentum">Momentum</option>
+				<option value="AdaGrad">AdaGrad</option>
+				<option value="Ftrl">Ftrl</option>
+				<option value="ProximalAdaGrad">ProximalAdaGrad</option>
+				<option value="Nesterov">Nesterov</option>
+			  </select>
+		  </div>
+		  Taux d'apprentissage
+	      <div class="slidecontainer">
+	        <input type="number" id="tauxApp" name="tauxApp" min="0.001" max="1" value="1">
+	      </div>
 		  BatchSize
 	      <div class="slidecontainer">
 	        <input type="range" min="1" max="100" value="32" class="slider" id="batchSize">
