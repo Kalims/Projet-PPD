@@ -1,4 +1,5 @@
 //Initialisation du graphique sur la perte
+
 var lossIncrement = 1;
 var ctx = document.getElementById('lossChart').getContext('2d');
 var lossChart = new Chart(ctx, {
@@ -52,10 +53,11 @@ var show_class = false;
 var features = [];
 var featuresTest = [];
 var targets = [];
+var nbClasse;
 
 //Creation du modele
 input = tf.input({batchShape: [null, 1000]});
-output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
+output = tf.layers.dense({useBias: true, units: 3, activation: 'softmax'}).apply(input);
 model = tf.model({inputs: input, outputs: output});
 optimizer = tf.train.adam(0.01);
 //Compilation du modele
@@ -84,7 +86,7 @@ async function setupWebcam() {
 //Permet de recompiler le mod�le si l'optimizer � �t� modifi�
 function modelCompile(){
 	input = tf.input({batchShape: [null, 1000]});
-	output = tf.layers.dense({useBias: true, units: 5, activation: 'softmax'}).apply(input);
+	output = tf.layers.dense({useBias: true, units: ini_nbClasse(), activation: 'softmax'}).apply(input);
 	//Creation du modele
 	model = tf.model({inputs: input, outputs: output});
 	optimizer = tf.train.adam(1);
@@ -97,7 +99,11 @@ function show(){
 
 function train(){
 	//Entrainement du modele
+	modelCompile();
 	const tf_features = tf.tensor2d(features, shape=[features.length, 1000])
+	console.log("test dans methode train");
+	console.log(features);
+	console.log(targets);
 	const tf_targets = tf.tensor(targets);
 	model.fit(tf_features, tf_targets, {
 	  batchSize: parseInt(document.getElementById("batchSize").value),
@@ -118,35 +124,29 @@ function train(){
 	  }
 	});
 }
+
 function add_features(feature){
-	//Add features to one class if one button is pressed //Ajouter une "fonctionnalit�" a une classe si le boutton est cliqu�
-	//if (left.clicked){
-		//boucle sur dossier
-		
-		console.log("gather left");
-		
+		console.log("add feature function");
 		features.push((Array.from(feature.buffer().values))); // boucle sur chaque image
-		targets.push([1., 0., 0., 0., 0.]); //nombre de dossier = nombre de classes
 		featuresTest.push(feature);
-	//}
 }
 
+
 function showTest() {
-	console.log("TEST ");
-	const labels = ["Left", "Right", "Up", "Down", "Middle"];
+	console.log("function ShwoTest begin ");
+	const labels = pictures['caracteristiques']['labelsClasses'];
 
 	for ( i=0; i< featuresTest.length; i++) {
 		const prediction = model.predict(featuresTest[i]);
-
 		cl = prediction.argMax(1).buffer().values[0];
 
-		console.log("TEST ",cl, labels[cl]);
+		console.log("TEST --> all prodict" , prediction,"+ prediction max + label",cl,  labels[cl]);
 		console.log("TEST prediction all probability : " + prediction.buffer().values);
-		console.log("TEST prediction  : " + prediction.buffer().values[0]);
+		console.log("TEST prediction  : " +  prediction.argMax(1).buffer().values[0]);
 		console.log("TEST target", targets[i]);
 
-		indexLabel =0;
-		for ( j=0; j<targets[i].length; j++){
+		var indexLabel = 0;
+		for ( j=0; j< targets[i].length; j++){
 			console.log(targets[i][j]);
 			if(targets[i][j]==1)
 				indexLabel=j;
@@ -160,13 +160,12 @@ function showTest() {
 		console.log("TEST label[cl]  ",labels[cl]);
 		console.log("TEST target[i] ",targets[i]);
 		console.log("TEST label[j] ",labels[indexLabel], " - j - ", j);
-
 		ajouterLigne(labels[indexLabel], labels[cl], res);
 	}
+	console.log("function ShowTest end ");
 }
 
 function ajouterLigne(label , predict, proba) {
-
 	var tableau = document.getElementById("tableau");
 	var ligne = tableau.insertRow(-1);//on a ajouté une ligne
 
@@ -178,18 +177,33 @@ function ajouterLigne(label , predict, proba) {
 
 	var colonne3 = ligne.insertCell(2);
 	colonne3.innerHTML  = proba;
-
-
-	if (proba =="Erreur"){
-		colonne3.className="fondrouge";
-	}
-	else
-		colonne3.className="fondvert";
-
+	if (proba =="Erreur"){colonne3.className="fondrouge";}
+	else colonne3.className="fondvert";
 }
 
 
 var pictures = null;
+
+function loadPictures2(){
+	console.log('Load2 function Begin');
+	pictures['pictures'].forEach( function (element) {
+		var ImageURL = element['base64'];
+		var canvas = document.createElement( "canvas");
+		canvas.setAttribute("class", element['name']);
+		canvas.setAttribute("id", "pictures");
+		canvas.width=300;
+		canvas.height=300;
+		var ctx = canvas.getContext("2d");
+		var image = new Image();
+		image.onload = function() {
+			ctx.drawImage(image, 0, 0);
+		}
+		image.src = ImageURL;
+		document.body.appendChild(canvas);
+		console.log(canvas);
+	});
+	console.log('Load2 function end');
+}
 
 //Methode utilis�e pour charger les images
 function loadPictures() {
@@ -207,53 +221,75 @@ function loadPictures() {
 			console.log(resultat);
 		},
 		complete: function(request){
-			console.log("complete");
 			pictures=JSON.parse(request.responseText);
+			loadPictures2();
+			console.log("LoadPicture function : complete ! ");
 			console.log(pictures);
 		}
 	});
-	console.log("fin fonction load");
 }
+
+function ini_nbClasse(){
+	nbClasse = pictures['caracteristiques']['nbClasse'];
+	return nbClasse;
+}
+
+
+function sleep(milliseconds) {
+	var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime() - start) > milliseconds){
+			break;
+		}
+	}
+}
+
+loadPictures();
 
 async function app() {
   console.log('Loading mobilenet..');
   //Charger le modele mobilenet
-  net = await mobilenet.load();
+  var net = await mobilenet.load();
   //Le modele � bien �t� charg�
   console.log('Sucessfully loaded model');
 
-  loadPictures();
-
+  //loadPictures();
   await setupWebcam();
 
-  pictures['pictures'].forEach( function (element) {
-		ImageURL = element['base64'];
-		var canvas = document.getElementById("canvas");
-		var ctx = canvas.getContext("2d");
-		var image = new Image();
-		image.onload = function() {
-			ctx.drawImage(image, 0, 0);
-		};
-		image.src = ImageURL;
-		const feature = net.infer(canvas);
-		add_features(feature);
-	});
+	var res2 ;
+	var i;
+	var j;
+
+	console.log(pictures['caracteristiques']['labelsClasses'].length);
+	console.log(pictures['caracteristiques']['labelsClasses'][0]);
+
+	for ( i=0; i < pictures['caracteristiques']['labelsClasses'].length; i++){
+		res2 = document.getElementsByClassName(pictures['caracteristiques']['labelsClasses'][i]);
+		console.log(res2);
+		for (j=0; j < res2.length ; j++){
+			//console.log("boucle");
+			var result = net.infer(res2[j]);
+			//console.log("result boucle 2");
+			//console.log(result.buffer().values);
+			add_features(result);
+			var tab = new Array(pictures.caracteristiques.labelsClasses.length).fill(0);
+			tab[i]= 1;
+			targets.push(tab);
+			//console.log(tab);
+		}
+
+	}
+  	console.log(features);
+  	console.log(targets);
 	
   while (true) {
 	//const result = await net.classify(webcamElement);
 	const feature = await net.infer(webcamElement);
-	//console.log(feature);
-	//console.log(feature.buffer().values);
-	add_features(feature);
-	//console.log("Prediction", result[0].className);
-	//console.log("Probability", result[0].probability);
 	if (show_class){
-		console.log(model.predict(feature));
 		const prediction = model.predict(feature);
-		console.log(prediction.buffer().values);
-		const labels = ["Left", "Right", "Up", "Down", "Middle"];
+		//console.log(prediction.buffer().values);
 		cl = prediction.argMax(1).buffer().values[0];
-		console.log(cl, labels[cl]);
+		console.log(cl, pictures.caracteristiques.labelsClasses[cl]);
 	}
 	//Attend la prochaine "frame"
 	await tf.nextFrame();
