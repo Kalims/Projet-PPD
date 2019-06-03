@@ -186,11 +186,17 @@ var pictures = null;
 
 function loadPictures2(){
 	console.log('Load2 function Begin');
+
+	//var newDiv = document.createElement("div");
+	//newDiv.setAttribute("id", "min");
+	var minDiv = document.getElementById('min');
+
 	pictures['pictures'].forEach( function (element) {
 		var ImageURL = element['base64'];
 		var canvas = document.createElement( "canvas");
 		canvas.setAttribute("class", element['name']);
 		canvas.setAttribute("id", "pictures");
+		canvas.setAttribute("style", "display:none");
 		canvas.width=300;
 		canvas.height=300;
 		var ctx = canvas.getContext("2d");
@@ -201,6 +207,24 @@ function loadPictures2(){
 		image.src = ImageURL;
 		document.body.appendChild(canvas);
 		console.log(canvas);
+
+		// miniature
+		var canvasMin = document.createElement( "canvas");
+		//canvas.setAttribute("id", element['name']);
+		canvasMin.setAttribute("class", "miniature-pictures");
+		//canvas.setAttribute("style", "display:none");
+		canvasMin.width=90;
+		canvasMin.height=90;
+		var ctxMin = canvasMin.getContext("2d");
+		var image = new Image();
+		image.onload = function() {
+			ctxMin.drawImage(image, 0,0, 90, 90);
+		}
+		image.src = ImageURL;
+		minDiv.appendChild(canvasMin);
+
+		//document.body.insertBefore(newDiv, currentDiv);
+		//console.log(canvasMin);
 	});
 	console.log('Load2 function end');
 }
@@ -242,6 +266,12 @@ function sleep(milliseconds) {
 			break;
 		}
 	}
+}
+
+function modelSave(){
+	model.save('downloads://my-model');
+	//model.save('http://localhost:80/Projet-PPD/php/uploadModel.php');
+	//model.loadFrozenModel('http://localhost:8080/tensorflowjs_model.pb', 'http://localhost:8080/weights_manifest.json')
 }
 
 loadPictures();
