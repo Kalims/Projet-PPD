@@ -64,6 +64,7 @@
           <button class="btn btn-dark" onclick="train()" id="train">Train</button>
 		   <button class="btn btn-dark" onclick="showTest()" id="train">Show test</button>
           <button class="btn btn-dark" onclick="show()" id="train">Show</button>
+		   <button class="btn btnd btn-dark" style="margin-left:15px;" onClick="modelSave();">Save Model</button>
 	   </div>
 
 	  </div>
@@ -103,6 +104,9 @@
   <li class="nav-item">
     <a class="nav-link" id="pills-resTestMod-tab" data-toggle="pill" href="#pills-resTestMod" role="tab" aria-controls="pills-resTestMod" aria-selected="false">Resultat du test du model</a>
   </li>
+	 <li class="nav-item">
+		 <a class="nav-link" id="pills-min-tab" data-toggle="pill" href="#min" role="tab" aria-controls="pills-min" aria-selected="false">Miniatures</a>
+	 </li>
 </ul>
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-Loss" role="tabpanel" aria-labelledby="pills-loss-tab">
@@ -133,7 +137,13 @@
 		  </tbody>
 	  </table>
   </div>
+	<div class="tab-pane fade" role="tabpanel" id="min" aria-labelledby="pills-min-tab">
+
+	</div>
+
 </div>
+
+
 <!-- Footer -->
 <footer class="page-footer font-small blue">
 
