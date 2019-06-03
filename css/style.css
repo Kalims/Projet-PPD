@@ -20,7 +20,11 @@
 #min {
     padding: 5%;
 }
-
+@media (min-width: 576px){
+.jumbotron {
+    padding: 3rem 2rem !important;
+}
+}
 /* h1 span:after, h1 span:before{ */
   /* content:" "; */
   /* display:block; */
