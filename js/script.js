@@ -349,7 +349,9 @@ async function app() {
 		const prediction = model.predict(feature);
 		//console.log(prediction.buffer().values);
 		cl = prediction.argMax(1).buffer().values[0];
-		console.log(cl, pictures.caracteristiques.labelsClasses[cl]);
+		//console.log(cl, pictures.caracteristiques.labelsClasses[cl]);
+		var classPredi = pictures.caracteristiques.labelsClasses[cl];
+		document.getElementById("prediction").innerHTML = classPredi;
 	}
 	//Attend la prochaine "frame"
 	await tf.nextFrame();
