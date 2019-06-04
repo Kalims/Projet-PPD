@@ -156,7 +156,7 @@ function init_prediction_tab(){
 	pred.innerHTML = "";
 	var tab = "";
 	for ( i=0; i < pictures['caracteristiques']['labelsClasses'].length; i++){
-		tab = tab + "<div>"+pictures['caracteristiques']['labelsClasses'][i]+" : <div id="+pictures['caracteristiques']['labelsClasses'][i]+">0</div></div>";
+		tab = tab + '<div class="nom btn btn-dark">'+pictures['caracteristiques']['labelsClasses'][i]+' : <div class="badge badge-light" id='+pictures['caracteristiques']['labelsClasses'][i]+'>0</div></div>';
 	}
 	pred.innerHTML = tab;
 }
