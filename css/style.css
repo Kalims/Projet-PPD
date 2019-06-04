@@ -25,6 +25,11 @@
     padding: 1rem 2rem !important;
 }
 }
+
+.resultat
+{
+	display : flex !important;
+}
 /* h1 span:after, h1 span:before{ */
   /* content:" "; */
   /* display:block; */
@@ -237,7 +242,20 @@ h3{
     background-size: contain;
 	color: #ffa600;
 	border: 1px solid #ffa600 !important;
+}
 
+.badge-light {
+    color: #212529 !important;
+    background-color: #ffa600 !important;
+}
+.nom
+{
+	margin: 1rem;
+}
+.nom:hover
+{
+    background-color: #ffa600 !important;
+	transition: 0.5s;
 }
 .card-header
 {
