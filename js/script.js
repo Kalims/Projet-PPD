@@ -132,8 +132,6 @@ function train(){
 	modelCompile();
 	const tf_features = tf.tensor2d(features, shape=[features.length, 1000])
 	console.log("test dans methode train");
-	//console.log(features);
-	//console.log(targets);
 	const tf_targets = tf.tensor(targets);
 	model.fit(tf_features, tf_targets, {
 	  batchSize: parseInt(document.getElementById("batchSize").value),
@@ -141,24 +139,32 @@ function train(){
 	  callbacks: {
 		onBatchEnd: async (batch, logs) => {
 		  //Log the cost for every batch that is fed. //Le cout de chaque batch
-		  //console.log(logs.loss.toFixed(5));
-		  //console.log(logs.loss);
 		  addData(lossChart,lossIncrement,logs.loss);
 		  lossIncrement++;
 		  //accurancy
-		  //console.log(logs.acc);
 		  addData(accurancyChart,accurancyIncrement,logs.acc);
 		  accurancyIncrement++;
 		  await tf.nextFrame();
 		}
 	  }
 	});
+	init_prediction_tab();
+}
+
+function init_prediction_tab(){
+	var pred = document.getElementById('pred');
+	pred.innerHTML = "";
+	var tab = "";
+	for ( i=0; i < pictures['caracteristiques']['labelsClasses'].length; i++){
+		tab = tab + "<div>"+pictures['caracteristiques']['labelsClasses'][i]+" : <div id="+pictures['caracteristiques']['labelsClasses'][i]+">0</div></div>";
+	}
+	pred.innerHTML = tab;
 }
 
 function add_features(feature){
-		console.log("add feature function");
-		features.push((Array.from(feature.buffer().values))); // boucle sur chaque image
-		featuresTest.push(feature);
+	console.log("add feature function");
+	features.push((Array.from(feature.buffer().values))); // boucle sur chaque image
+	featuresTest.push(feature);
 }
 
 
@@ -216,9 +222,6 @@ var pictures = null;
 
 function loadPictures2(){
 	console.log('Load2 function Begin');
-
-	//var newDiv = document.createElement("div");
-	//newDiv.setAttribute("id", "min");
 	var minDiv = document.getElementById('min');
 
 	pictures['pictures'].forEach( function (element) {
@@ -236,13 +239,10 @@ function loadPictures2(){
 		}
 		image.src = ImageURL;
 		document.body.appendChild(canvas);
-		//console.log(canvas);
 
 		// miniature
 		var canvasMin = document.createElement( "canvas");
-		//canvas.setAttribute("id", element['name']);
 		canvasMin.setAttribute("class", "miniature-pictures");
-		//canvas.setAttribute("style", "display:none");
 		canvasMin.width=90;
 		canvasMin.height=90;
 		var ctxMin = canvasMin.getContext("2d");
@@ -252,9 +252,6 @@ function loadPictures2(){
 		}
 		image.src = ImageURL;
 		minDiv.appendChild(canvasMin);
-
-		//document.body.insertBefore(newDiv, currentDiv);
-		//console.log(canvasMin);
 	});
 	console.log('Load2 function end');
 }
@@ -267,18 +264,14 @@ function loadPictures() {
 		url:  "http://localhost:80/Projet-PPD/php/uploadImage.php",
 		success: function(request){
 			console.log("success");
-			//pictures=JSON.parse(request.responseText);
-			//console.log(pictures);
 		},
 		error: function(resultat){
 			console.log("error");
-			//console.log(resultat);
 		},
 		complete: function(request){
 			pictures=JSON.parse(request.responseText);
 			loadPictures2();
 			console.log("LoadPicture function : complete ! ");
-			//console.log(pictures);
 		}
 	});
 }
@@ -288,20 +281,14 @@ function ini_nbClasse(){
 	return nbClasse;
 }
 
-
-function sleep(milliseconds) {
-	var start = new Date().getTime();
-	for (var i = 0; i < 1e7; i++) {
-		if ((new Date().getTime() - start) > milliseconds){
-			break;
-		}
-	}
-}
-
 function modelSave(){
 	model.save('downloads://my-model');
-	//model.save('http://localhost:80/Projet-PPD/php/uploadModel.php');
-	//model.loadFrozenModel('http://localhost:8080/tensorflowjs_model.pb', 'http://localhost:8080/weights_manifest.json')
+}
+
+function addToPredTab(id){
+	var div = document.getElementById(id);
+	var number = parseInt($('#'+id).text());
+	div.innerHTML = number + 1;
 }
 
 loadPictures();
@@ -313,35 +300,24 @@ async function app() {
   //Le modele � bien �t� charg�
   console.log('Sucessfully loaded model');
 
-  //loadPictures();
   await setupWebcam();
 
 	var res2 ;
 	var i;
 	var j;
-
-	//console.log(pictures['caracteristiques']['labelsClasses'].length);
-	//console.log(pictures['caracteristiques']['labelsClasses'][0]);
-
+	
 	for ( i=0; i < pictures['caracteristiques']['labelsClasses'].length; i++){
 		res2 = document.getElementsByClassName(pictures['caracteristiques']['labelsClasses'][i]);
-		//console.log(res2);
 		for (j=0; j < res2.length ; j++){
-			//console.log("boucle");
 			var result = net.infer(res2[j]);
-			//console.log("result boucle 2");
-			//console.log(result.buffer().values);
 			add_features(result);
 			var tab = new Array(pictures.caracteristiques.labelsClasses.length).fill(0);
 			tab[i]= 1;
 			targets.push(tab);
-			//console.log(tab);
 		}
 
 	}
-  	//console.log(features);
-  	//console.log(targets);
-	
+
   while (true) {
 	//const result = await net.classify(webcamElement);
 	const feature = await net.infer(webcamElement);
@@ -349,9 +325,9 @@ async function app() {
 		const prediction = model.predict(feature);
 		//console.log(prediction.buffer().values);
 		cl = prediction.argMax(1).buffer().values[0];
-		//console.log(cl, pictures.caracteristiques.labelsClasses[cl]);
 		var classPredi = pictures.caracteristiques.labelsClasses[cl];
 		document.getElementById("prediction").innerHTML = classPredi;
+		addToPredTab(classPredi);
 	}
 	//Attend la prochaine "frame"
 	await tf.nextFrame();
