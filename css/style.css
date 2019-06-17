@@ -26,6 +26,10 @@
 }
 }
 
+#pred {
+	display : block !important;
+}
+
 .resultat
 {
 	display : flex !important;

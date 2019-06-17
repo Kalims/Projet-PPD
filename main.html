@@ -33,7 +33,7 @@
 <div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">Prédictions</h1>
-			<center><p>Cette page permet de...</p></center>
+			<center><p>Cette page permet d'entrainer un modèle sur les images stockées en base. Grâce à votre webcam, nous pouvons détecter qui vous êtes!</p></center>
 		</div>
 </div>
   <div class="content-separator">
@@ -70,10 +70,12 @@
 	        <span id="f1" style="font-weight:bold;color:#23272b">75</span>
 	      </div>
 		  <br>
-          <button class="btn btn-dark" onclick="train()" id="train">Train</button>
-		   <button class="btn btn-dark" onclick="showTest()" id="train">Show test</button>
-          <button class="btn btn-dark" onclick="show()" id="train">Show</button>
-		   <button class="btn btnd btn-dark" style="margin-left:15px;" onClick="modelSave();">Save Model</button>
+          <button class="btn btn-dark" onclick="train()" id="train">Entrainement</button>
+          <button class="btn btn-dark" onclick="show()" id="train">Prédiction</button>
+		  <div>
+		  <button class="btn btn-dark" style="margin-top:15px;" onclick="showTest()" id="train">Test du modele</button>
+		  <button class="btn btnd btn-dark" style="margin-top:15px;" onClick="modelSave();">Sauvegarder Modele</button>
+		  </div>
 	   </div>
 
 	  </div>
