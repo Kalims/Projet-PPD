@@ -103,18 +103,20 @@
                 <ul class="timeline">
                     <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
                         <div class="timeline-arrow"></div>
-                        <h2 class="h5 mb-0">Utilisation de Tensorflow js avec le modèle Mobilenet</h2>
-                        <p class="text-small mt-2 font-weight-light">Description...</p>
+                        <h2 class="h5 mb-0">Utilisation de Tensorflow js avec le modèle MobileNet</h2>
+                        <p class="text-small mt-2 font-weight-light">Exploitation de la bibliothèque javascript MobileNet dans Tensorflow via l'utilisation des reseaux de neurones convolutionnels.</p>
                     </li>
                     <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
                         <div class="timeline-arrow"></div>
                         <h2 class="h5 mb-0">Sauvegarde des images prises par rapport à la webcam</h2>
-                        <p class="text-small mt-2 font-weight-light">Description...</p>
+                        <p class="text-small mt-2 font-weight-light">L'image est d'abord récupéré en format canvas via la fonction webcam de html puis est envoyée au back end php en base 64.
+						Les images sont stockées par classes (répertoires) dans un nommage particulier afin d'être reconnus.</p>
                     </li>
                     <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
                         <div class="timeline-arrow"></div>
-                        <h2 class="h5 mb-0">Entraîner un modèle à partir des images prises directement par la webcam (pas depuis les images sauvegardées pour l’instant)</h2>
-                        <p class="text-small mt-2 font-weight-light">Description...</p>
+                        <h2 class="h5 mb-0">Entraîner un modèle à partir des images stockées en base</h2>
+                        <p class="text-small mt-2 font-weight-light">Le format d'image attendu par MobileNet est en canvas, il faut donc reconvertir les images en base 64 du back en canvas afin d'utiliser 
+						les fonctions de convolutions, ReLU (Rectified Linear Unit), Pooling, Flatten, Fully connected, Softmax.</p>
                     </li>
                     <li class="timeline-item bg-white rounded ml-3 p-4 shadow">
                         <div class="timeline-arrow"></div>
