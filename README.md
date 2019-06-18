@@ -1,4 +1,4 @@
-# Projet-PPD Tensorflow
+# Projet PPD - Interface web "Machine Learning avec TensorFlow.js"
 
 Dans le cadre de notre formation par apprentissage en master MIAGE, nous avons eu l’opportunité de pouvoir gérer un projet dans son intégralité et ce en situation réelle.
 Plusieurs choix de sujets nous ont donc été soumis et nous avions choisi le sujet portant sur le Machine Learning avec TensorFlow JS. 
