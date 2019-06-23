@@ -167,13 +167,17 @@ function add_features(feature){
 	featuresTest.push(feature);
 }
 
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
+}
+
 
 function showTest() {
 	console.log("function ShwoTest begin ");
 	const labels = pictures['caracteristiques']['labelsClasses'];
-
-	for ( i=0; i< featuresTest.length; i++) {
-		const prediction = model.predict(featuresTest[i]);
+	for ( i=0; i< featuresTest.length / 4 ; i++) {
+		random = getRandomInt(featuresTest.length)
+		const prediction = model.predict(featuresTest[random]);
 		cl = prediction.argMax(1).buffer().values[0];
 
 		console.log("TEST --> all prodict" , prediction,"+ prediction max + label",cl,  labels[cl]);
@@ -182,9 +186,9 @@ function showTest() {
 		console.log("TEST target", targets[i]);
 
 		var indexLabel = 0;
-		for ( j=0; j< targets[i].length; j++){
-			console.log(targets[i][j]);
-			if(targets[i][j]==1)
+		for ( j=0; j< targets[random].length; j++){
+			console.log(targets[random][j]);
+			if(targets[random][j]==1)
 				indexLabel=j;
 		}
 
@@ -194,7 +198,7 @@ function showTest() {
 
 		console.log("TEST prediction - ",prediction, " - cl - ", cl);
 		console.log("TEST label[cl]  ",labels[cl]);
-		console.log("TEST target[i] ",targets[i]);
+		console.log("TEST target[random] ",targets[random]);
 		console.log("TEST label[j] ",labels[indexLabel], " - j - ", j);
 		ajouterLigne(labels[indexLabel], labels[cl], res);
 	}
